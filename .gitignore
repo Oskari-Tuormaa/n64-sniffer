@@ -34,3 +34,6 @@
 # Temporary directories
 .cache
 build
+
+# Symlink
+compile_commands.json
