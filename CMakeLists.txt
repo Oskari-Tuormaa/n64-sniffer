@@ -16,7 +16,7 @@ add_executable(${PROJECT_NAME} src/main.cpp)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra)
 
 pico_generate_pio_header(${PROJECT_NAME}
-                         ${CMAKE_CURRENT_LIST_DIR}/src/squarewave.pio)
+                         ${CMAKE_CURRENT_LIST_DIR}/src/n64-protocol.pio)
 
 target_link_libraries(${PROJECT_NAME} pico_stdlib hardware_pio)
 pico_add_extra_outputs(${PROJECT_NAME})
