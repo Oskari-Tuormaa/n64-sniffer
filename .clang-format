@@ -39,4 +39,4 @@ BraceWrapping:
   SplitEmptyRecord: false
   SplitEmptyNamespace: false
 
-ColumnLimit: 100
+ColumnLimit: 80

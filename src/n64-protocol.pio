@@ -2,6 +2,11 @@
 
 .define public T 30
 
+    nop [T]
+    nop [T]
+    nop [T]
+    nop [T]
+    nop [T]
     set pindirs, 1
     set x, 31
 
