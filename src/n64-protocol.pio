@@ -1,7 +1,30 @@
 .program n64_protocol
 
-bitloop:
-    out pins, 1
+.define public T 30
+
+    set pindirs, 1
+    set x, 31
+
+    ; Write 32 bits
+write_bit:
+    out pins, 1        [T - 2]
+    jmp x--, write_bit
+
+    ; Write stop bit
+    set pins, 0 [T - 1]
+    set pins, 1 [T - 1]
+    
+    ; Get ready for reading
+    set pindirs, 0
+
+    ; Read indefinitely
+.wrap_target
+    wait 0 pin 0
+    nop [T - 1]
+    nop [T - 1]
+    in pins, 1
+    wait 1 pin 0
+.wrap
 
 % c-sdk {
 
@@ -15,11 +38,15 @@ static inline void n64_protocol_program_init(PIO pio, uint sm, uint offset, uint
     pio_gpio_init(pio, pin);
 
     pio_sm_config c = n64_protocol_program_get_default_config(offset);
+    sm_config_set_set_pins(&c, pin, 1);
+
     sm_config_set_out_pins(&c, pin, 1);
     sm_config_set_out_shift(&c, true, true, 4);
-    sm_config_set_fifo_join(&c, PIO_FIFO_JOIN_TX);
 
-    float div = clock_get_hz(clk_sys) / freq;
+    sm_config_set_in_pins(&c, pin);
+    sm_config_set_in_shift(&c, false, true, 8);
+
+    float div = clock_get_hz(clk_sys) / (4 * n64_protocol_T * freq);
     sm_config_set_clkdiv(&c, div);
 
     pio_sm_init(pio, sm, offset, &c);
