@@ -1,29 +1,26 @@
 Checks: >
   bugprone-*,
   clang-analyzer-*,
-  cppcoreguidelines-*,
   performance-*,
   modernize-*,
   misc-*,
   readability-*,
   llvm-*,
   -readability-function-size,
-  -cppcoreguidelines-pro-type-union-access,
-  -cppcoreguidelines-pro-bounds-pointer-arithmetic,
   -modernize-use-trailing-return-type
 
 CheckOptions:
-  readability-identifier-naming.VariableCase: lower_case
   readability-identifier-naming.ClassCase: CamelCase
-  readability-identifier-naming.ParameterCase: lower_case
   readability-identifier-naming.TemplateParameterCase: CamelCase
+  readability-identifier-naming.TypeAliasCase: CamelCase
 
-  readability-identifier-naming.TypeAliasCase: lower_case
-
+  readability-identifier-naming.VariableCase: lower_case
+  readability-identifier-naming.ParameterCase: lower_case
   readability-identifier-naming.MemberCase: lower_case
+  readability-identifier-naming.ClassMethodCase: lower_case
+
   readability-identifier-naming.PrivateMemberPrefix: m_
 
-  readability-identifier-naming.ClassMethodCase: lower_case
 
   readability-function-cognitive-complexity.IgnoreMacros: true
 

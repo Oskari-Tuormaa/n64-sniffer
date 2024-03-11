@@ -88,11 +88,11 @@ int main()
 
     TimerCallbackData cb_data { .pio = pio };
     repeating_timer_t timer;
-    add_repeating_timer_ms(-33, timer_callback, &cb_data, &timer);
+    add_repeating_timer_ms(-1000 / 60, timer_callback, &cb_data, &timer);
 
     while (true)
     {
-        constexpr std::size_t delay_time = 10;
+        constexpr std::size_t delay_time = 1;
         sleep_ms(delay_time);
 
         usb::run_tasks();
@@ -105,7 +105,12 @@ int main()
             int8_t coordy = buf[3];
 
             bool lclick = (buf[0] & 0x20) != 0;
-            bool rclick = (buf[0] & 0x80) != 0;
+            bool rclick = (buf[0] & 0x10) != 0;
+
+            bool a_pressed = (buf[0] & 0x80) != 0;
+            bool b_pressed = (buf[0] & 0x40) != 0;
+
+            bool r_pressed = (buf[1] & 0x10) != 0;
 
             int8_t vert = 0;
             if ((buf[1] & 0x08) != 0)
@@ -116,6 +121,12 @@ int main()
             printf("Buttons: %02x %02x   ", buf[0], buf[1]);
             printf("Coords: %3d : %3d\r\n", coordx, coordy);
             usb::ctrl_mouse(lclick, rclick, coordx / 3, -coordy / 3, vert);
+
+            std::array<uint8_t, 6> key_presses { 0 };
+            key_presses[0] = a_pressed ? HID_KEY_A : 0;
+            key_presses[1] = b_pressed ? HID_KEY_B : 0;
+            key_presses[2] = r_pressed ? HID_KEY_Q : 0;
+            usb::send_keystroke(key_presses);
 
             cb_data.coords_tail
                 = (cb_data.coords_tail + 1) % cb_data.out_buf.size();

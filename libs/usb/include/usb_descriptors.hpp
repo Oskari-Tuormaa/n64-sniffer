@@ -27,7 +27,8 @@
 
 enum Report
 {
-    IdMouse = 1,
+    IdKeyboard = 1,
+    IdMouse,
     IdCount
 };
 

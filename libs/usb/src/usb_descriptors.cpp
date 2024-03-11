@@ -80,9 +80,10 @@ uint8_t const* tud_descriptor_device_cb(void)
 // HID Report Descriptor
 //--------------------------------------------------------------------+
 
-auto const desc_hid_report = std::to_array<uint8_t>({
+auto const desc_hid_report { std::to_array<uint8_t>({
+    TUD_HID_REPORT_DESC_KEYBOARD(HID_REPORT_ID(Report::IdKeyboard)),
     TUD_HID_REPORT_DESC_MOUSE(HID_REPORT_ID(Report::IdMouse)),
-});
+}) };
 
 // Invoked when received GET HID REPORT DESCRIPTOR
 // Application return pointer to descriptor
